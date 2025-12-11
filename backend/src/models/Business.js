@@ -109,9 +109,8 @@ const businessSchema = new mongoose.Schema({
 });
 
 // Update the updatedAt field before saving
-businessSchema.pre('save', function(next) {
+businessSchema.pre('save', function() {
   this.updatedAt = Date.now();
-  next();
 });
 
 module.exports = mongoose.model('Business', businessSchema);

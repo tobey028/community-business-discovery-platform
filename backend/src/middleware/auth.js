@@ -23,7 +23,7 @@ exports.protect = async (req, res, next) => {
         });
       }
 
-      next();
+      return next();
     } catch (error) {
       console.error(error);
       return res.status(401).json({ 
@@ -31,9 +31,7 @@ exports.protect = async (req, res, next) => {
         message: 'Not authorized, token failed' 
       });
     }
-  }
-
-  if (!token) {
+  } else {
     return res.status(401).json({ 
       success: false, 
       message: 'Not authorized, no token' 
