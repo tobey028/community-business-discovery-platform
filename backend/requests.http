@@ -1,0 +1,154 @@
+### Health Check
+GET http://localhost:8000/
+
+###
+
+### Register Business Owner
+POST http://localhost:8000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Sarah Johnson",
+  "email": "sarah@business.com",
+  "password": "password123",
+  "role": "business_owner"
+}
+
+###
+
+### Register Regular User
+POST http://localhost:8000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Mike Smith",
+  "email": "mike@example.com",
+  "password": "password123",
+  "role": "user"
+}
+
+###
+
+### Login
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "sarah@business.com",
+  "password": "password123"
+}
+
+###
+
+### Get Current User
+GET http://localhost:8000/api/auth/me
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### Create Business (Business Owner)
+POST http://localhost:8000/api/businesses
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "name": "Joe's Pizza Restaurant",
+  "description": "Best authentic Italian pizza in New York. Family owned since 1995, we serve traditional recipes with fresh ingredients.",
+  "category": "Restaurant",
+  "location": {
+    "address": "123 Main Street",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10001"
+  },
+  "contact": {
+    "phone": "555-0123-456",
+    "email": "info@joespizza.com",
+    "website": "https://joespizza.com"
+  },
+  "services": [
+    {
+      "name": "Dine-in",
+      "description": "Enjoy our cozy atmosphere with family and friends",
+      "price": "$$"
+    },
+    {
+      "name": "Takeout",
+      "description": "Quick pickup for busy schedules",
+      "price": "$"
+    },
+    {
+      "name": "Delivery",
+      "description": "Fast delivery to your doorstep",
+      "price": "$15 minimum order"
+    }
+  ]
+}
+
+###
+
+### Get All Businesses
+GET http://localhost:8000/api/businesses
+
+###
+
+### Get Businesses with Filters
+GET http://localhost:8000/api/businesses?category=Restaurant&city=New York&page=1&limit=5
+
+###
+
+### Search Businesses by Keyword
+GET http://localhost:8000/api/businesses?keyword=pizza
+
+###
+
+### Get Single Business
+GET http://localhost:8000/api/businesses/BUSINESS_ID_HERE
+
+###
+
+### Get My Business (Business Owner)
+GET http://localhost:8000/api/businesses/my/profile
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### Update Business
+PUT http://localhost:8000/api/businesses/BUSINESS_ID_HERE
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "name": "Joe's Premium Pizza",
+  "description": "Updated description with new menu items"
+}
+
+###
+
+### Delete Business
+DELETE http://localhost:8000/api/businesses/BUSINESS_ID_HERE
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### Add to Favorites (Regular User)
+POST http://localhost:8000/api/favorites/BUSINESS_ID_HERE
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### Get My Favorites
+GET http://localhost:8000/api/favorites
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### Check if Business is Favorited
+GET http://localhost:8000/api/favorites/check/BUSINESS_ID_HERE
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### Remove from Favorites
+DELETE http://localhost:8000/api/favorites/BUSINESS_ID_HERE
+Authorization: Bearer YOUR_TOKEN_HERE
