@@ -42,7 +42,7 @@ exports.protect = async (req, res, next) => {
 // Restrict to business owners only
 exports.businessOwnerOnly = (req, res, next) => {
   if (req.user && req.user.role === 'business_owner') {
-    next();
+    return next();
   } else {
     return res.status(403).json({ 
       success: false, 
@@ -54,7 +54,7 @@ exports.businessOwnerOnly = (req, res, next) => {
 // Restrict to regular users only
 exports.regularUserOnly = (req, res, next) => {
   if (req.user && req.user.role === 'user') {
-    next();
+    return next();
   } else {
     return res.status(403).json({ 
       success: false, 
