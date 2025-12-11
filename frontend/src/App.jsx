@@ -9,6 +9,7 @@ import SearchResults from './pages/SearchResults';
 import BusinessDetail from './pages/BusinessDetail';
 import Dashboard from './pages/Dashboard';
 import Favorites from './pages/Favorites';
+import Profile from './pages/Profile';
 
 const ProtectedRoute = ({ children, requireBusinessOwner, requireRegularUser }) => {
   const { isAuthenticated, isBusinessOwner, loading } = useAuth();
@@ -41,11 +42,32 @@ function AppContent() {
     <div className="min-h-screen">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/search" element={<SearchResults />} />
-        <Route path="/business/:id" element={<BusinessDetail />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute>
+              <SearchResults />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/business/:id"
+          element={
+            <ProtectedRoute>
+              <BusinessDetail />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={
@@ -59,6 +81,14 @@ function AppContent() {
           element={
             <ProtectedRoute requireRegularUser>
               <Favorites />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

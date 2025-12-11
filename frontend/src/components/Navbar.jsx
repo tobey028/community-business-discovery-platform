@@ -1,17 +1,29 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Store, Heart, LayoutDashboard, LogOut, Search, User } from 'lucide-react';
-import { useState } from 'react';
+import { Store, Heart, LayoutDashboard, LogOut, Search, User, Settings } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout, isBusinessOwner } = useAuth();
   const navigate = useNavigate();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const menuRef = useRef(null);
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm">
@@ -69,28 +81,52 @@ const Navbar = () => {
                 )}
 
                 {/* User Menu */}
-                <div className="relative">
+                <div className="relative" ref={menuRef}>
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all"
+                    className="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-900 px-4 py-2 rounded-xl transition-colors"
                   >
-                    <User className="w-4 h-4" />
-                    <span className="text-sm font-medium">{user?.name}</span>
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+                      <User className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-sm font-medium hidden md:inline">{user?.name?.split(' ')[0]}</span>
                   </button>
 
                   {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-1 animate-slide-down">
-                      <div className="px-4 py-2 border-b border-slate-200">
-                        <p className="text-sm font-medium text-slate-900">{user?.name}</p>
-                        <p className="text-xs text-slate-500">{user?.email}</p>
+                    <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                      <div className="px-4 py-4 bg-gradient-to-br from-slate-50 to-blue-50 border-b border-slate-200">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-semibold text-slate-900">{user?.name}</p>
+                            <p className="text-xs text-slate-600">{user?.role === 'business_owner' ? 'Business Owner' : 'Member'}</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-slate-600 truncate">{user?.email}</p>
                       </div>
-                      <button
-                        onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>Logout</span>
-                      </button>
+                      
+                      <div className="py-2">
+                        <Link
+                          to="/profile"
+                          onClick={() => setShowUserMenu(false)}
+                          className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 transition-colors"
+                        >
+                          <Settings className="w-4 h-4" />
+                          <span className="font-medium">Profile Settings</span>
+                        </Link>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span className="font-medium">Logout</span>
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>

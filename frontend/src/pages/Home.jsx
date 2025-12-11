@@ -1,15 +1,19 @@
 import { Link } from 'react-router-dom';
-import { Search, TrendingUp, Star, MapPin, ArrowRight } from 'lucide-react';
+import { Search, TrendingUp, Star, MapPin, ArrowRight, Heart, Users, Award, Sparkles } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
+import { useAuth } from '../hooks/useAuth';
 
 const Home = () => {
+  const { user, isBusinessOwner } = useAuth();
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [stats, setStats] = useState({ totalBusinesses: 0, totalUsers: 0, totalViews: 0 });
 
   useEffect(() => {
     fetchFeaturedBusinesses();
+    fetchStats();
   }, []);
 
   const fetchFeaturedBusinesses = async () => {
@@ -20,6 +24,21 @@ const Home = () => {
       console.error('Error fetching businesses:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      const { data } = await api.get('/businesses');
+      const totalBusinesses = data.pagination?.total || data.data?.length || 0;
+      const totalViews = data.data?.reduce((sum, b) => sum + (b.views || 0), 0) || 0;
+      setStats({
+        totalBusinesses,
+        totalUsers: Math.floor(totalBusinesses * 1.5), // Approximate
+        totalViews
+      });
+    } catch (error) {
+      console.error('Error fetching stats:', error);
     }
   };
 
@@ -203,18 +222,125 @@ const Home = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="card bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-            Own a Business?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join our platform and reach thousands of potential customers in your local community
-          </p>
-          <Link to="/register" className="inline-block bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-lg">
-            Create Your Business Profile
-          </Link>
+      {/* Platform Stats */}
+      <div className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <div className="text-4xl font-bold text-slate-900 mb-1">{stats.totalBusinesses}</div>
+                  <div className="text-slate-600 font-medium">Active Businesses</div>
+                </div>
+                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                  <Award className="w-6 h-6 text-blue-600" />
+                </div>
+              </div>
+              <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full w-3/4 bg-blue-500 rounded-full"></div>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <div className="text-4xl font-bold text-slate-900 mb-1">{stats.totalUsers}</div>
+                  <div className="text-slate-600 font-medium">Happy Customers</div>
+                </div>
+                <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-indigo-600" />
+                </div>
+              </div>
+              <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full w-4/5 bg-indigo-500 rounded-full"></div>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <div className="text-4xl font-bold text-slate-900 mb-1">{stats.totalViews}</div>
+                  <div className="text-slate-600 font-medium">Profile Views</div>
+                </div>
+                <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-purple-600" />
+                </div>
+              </div>
+              <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full w-2/3 bg-purple-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* User Action Card */}
+      <div className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {isBusinessOwner ? (
+            <div className="relative">
+              <div className="absolute inset-0 bg-slate-900 rounded-[2.5rem]"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 rounded-[2.5rem]"></div>
+              <div className="relative p-10 md:p-16 lg:p-20">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <div className="inline-block px-4 py-2 bg-white/10 rounded-full backdrop-blur-sm mb-6">
+                      <span className="text-white/90 text-sm font-medium">For Business Owners</span>
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                      Welcome back,<br />{user?.name?.split(' ')[0]}
+                    </h2>
+                    <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+                      Check your dashboard to see latest views, manage your business details, and connect with more customers.
+                    </p>
+                    <Link 
+                      to="/dashboard" 
+                      className="inline-flex items-center gap-3 bg-white text-slate-900 px-8 py-4 rounded-2xl font-semibold hover:bg-slate-50 transition-all shadow-lg group"
+                    >
+                      Go to Dashboard
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                  <div className="hidden md:flex justify-end">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
+                        <TrendingUp className="w-8 h-8 text-white mb-3" />
+                        <div className="text-2xl font-bold text-white">Track</div>
+                        <div className="text-sm text-slate-300">Analytics</div>
+                      </div>
+                      <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 mt-8">
+                        <Star className="w-8 h-8 text-white mb-3" />
+                        <div className="text-2xl font-bold text-white">Manage</div>
+                        <div className="text-sm text-slate-300">Services</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-[2.5rem] p-10 md:p-16 lg:p-20 border border-slate-200">
+              <div className="max-w-3xl mx-auto text-center">
+                <div className="inline-flex items-center gap-2 px-5 py-2 bg-white rounded-full shadow-sm mb-8">
+                  <Heart className="w-4 h-4 text-red-500" />
+                  <span className="text-sm font-medium text-slate-700">Your Personal Collection</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                  Hey {user?.name?.split(' ')[0]},<br />find your favorites
+                </h2>
+                <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+                  Bookmark businesses you love and keep them organized in one place. Never lose track of great services again.
+                </p>
+                <Link 
+                  to="/favorites" 
+                  className="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-semibold hover:bg-slate-800 transition-all shadow-lg group"
+                >
+                  <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  My Favorites
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
