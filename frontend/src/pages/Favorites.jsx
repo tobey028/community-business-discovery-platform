@@ -95,7 +95,7 @@ const Favorites = () => {
                 <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100 overflow-hidden">
                   {business.logo ? (
                     <img
-                      src={`http://localhost:8000${business.logo}`}
+                      src={business.logo}
                       alt={business.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
