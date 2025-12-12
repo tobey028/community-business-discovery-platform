@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Search, TrendingUp, Star, MapPin, ArrowRight, Heart, Users, Award, Sparkles } from 'lucide-react';
+import { Search, TrendingUp, Star, MapPin, ArrowRight, Heart, Users, Award, Sparkles, LayoutDashboard } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../hooks/useAuth';
@@ -34,7 +34,7 @@ const Home = () => {
       const totalViews = data.data?.reduce((sum, b) => sum + (b.views || 0), 0) || 0;
       setStats({
         totalBusinesses,
-        totalUsers: Math.floor(totalBusinesses * 1.5), // Approximate
+        totalUsers: Math.floor(totalBusinesses * 1.5), 
         totalViews
       });
     } catch (error) {
@@ -60,37 +60,37 @@ const Home = () => {
   return (
     <div className="page-transition">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-white overflow-hidden">
+      <div className="relative bg-gradient-to-br from-[#4C82F7] via-[#5B8BF8] to-[#6B9FFF] text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6bTAtNHYyaDJ2LTJoLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-10"></div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold font-display mb-6 animate-fade-in">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-28 md:py-36">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-extrabold mb-8 leading-tight">
               Discover Amazing <br />
-              <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-yellow-300 via-orange-300 to-pink-300 bg-clip-text text-transparent">
                 Local Businesses
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 mb-10 animate-slide-up">
+            <p className="text-xl md:text-2xl text-white/90 mb-12 font-medium">
               Connect with the best services in your community
             </p>
 
             {/* Search Bar */}
-            <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto animate-slide-up">
+            <div className="flex flex-col sm:flex-row gap-4 max-w-3xl mx-auto">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
                 <input
                   type="text"
                   placeholder="What are you looking for?"
                   value={searchKeyword}
                   onChange={(e) => setSearchKeyword(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  className="w-full pl-12 pr-4 py-4 rounded-xl text-slate-900 border-2 border-white/20 focus:border-white outline-none transition-all shadow-lg"
+                  className="w-full pl-14 pr-5 py-5 rounded-2xl text-gray-900 border-2 border-white/20 focus:border-white outline-none transition-all shadow-2xl font-semibold placeholder-gray-400"
                 />
               </div>
-              <button onClick={handleSearch} className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-lg flex items-center justify-center space-x-2">
+              <button onClick={handleSearch} className="bg-white text-[#4C82F7] px-10 py-5 rounded-2xl font-bold hover:bg-gray-50 hover:scale-105 active:scale-95 transition-all shadow-2xl flex items-center justify-center space-x-3">
                 <span>Search</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -99,82 +99,105 @@ const Home = () => {
         {/* Wave Shape */}
         <div className="absolute bottom-0 left-0 w-full">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0L60 10C120 20 240 40 360 46.7C480 53 600 47 720 43.3C840 40 960 40 1080 46.7C1200 53 1320 67 1380 73.3L1440 80V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V0Z" fill="rgb(248, 250, 252)"/>
+            <path d="M0 0L60 10C120 20 240 40 360 46.7C480 53 600 47 720 43.3C840 40 960 40 1080 46.7C1200 53 1320 67 1380 73.3L1440 80V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V0Z" fill="white"/>
           </svg>
         </div>
       </div>
 
       {/* Categories Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-display text-slate-900 mb-4">
-            Browse by Category
-          </h2>
-          <p className="text-lg text-slate-600">Find exactly what you're looking for</p>
-        </div>
+      <div className="relative bg-gradient-to-br from-white via-blue-50/30 to-purple-50/20 py-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 px-5 py-2 bg-gradient-to-r from-[#4C82F7]/10 to-[#6B9FFF]/10 rounded-full mb-6 border border-[#4C82F7]/20">
+              <Sparkles className="w-4 h-4 text-[#4C82F7]" />
+              <span className="text-sm font-bold text-[#4C82F7]">Explore Categories</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-5 tracking-tight">
+              Browse by Category
+            </h2>
+            <p className="text-xl text-gray-600 font-medium">Find exactly what you're looking for</p>
+          </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {categories.map((category) => (
-            <Link
-              key={category.name}
-              to={`/search?category=${category.name}`}
-              className="group card card-hover p-6 text-center"
-            >
-              <div className={`text-5xl mb-3 transform group-hover:scale-110 transition-transform duration-200`}>
-                {category.emoji}
-              </div>
-              <h3 className="font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
-                {category.name}
-              </h3>
-            </Link>
-          ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+            {categories.map((category) => (
+              <Link
+                key={category.name}
+                to={`/search?category=${category.name}`}
+                className="group relative bg-white/80 backdrop-blur-sm hover:bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-200/60 hover:border-[#4C82F7]/40 p-8 text-center transition-all duration-300 hover:scale-[1.05] hover:-translate-y-1"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#4C82F7]/0 to-[#6B9FFF]/0 group-hover:from-[#4C82F7]/5 group-hover:to-[#6B9FFF]/5 rounded-2xl transition-all duration-300"></div>
+                <div className="relative">
+                  <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                    {category.emoji}
+                  </div>
+                  <h3 className="font-bold text-gray-900 group-hover:text-[#4C82F7] transition-colors text-sm">
+                    {category.name}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Featured Businesses */}
-      <div className="bg-slate-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
+      <div className="relative bg-white py-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold font-display text-slate-900 mb-2 flex items-center">
-                <TrendingUp className="w-8 h-8 text-blue-600 mr-3" />
+              <div className="inline-flex items-center gap-3 px-5 py-2 bg-gradient-to-r from-orange-50 to-red-50 rounded-full mb-6 border border-orange-200/60">
+                <TrendingUp className="w-4 h-4 text-orange-500" />
+                <span className="text-sm font-bold text-orange-700">Trending Now</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
                 Popular Businesses
               </h2>
-              <p className="text-lg text-slate-600">Trending in your area</p>
+              <p className="text-xl text-gray-600 font-medium">Discover the most loved local services</p>
             </div>
-            <Link to="/search" className="btn-outline hidden md:flex items-center space-x-2">
+            <Link 
+              to="/search" 
+              className="inline-flex items-center gap-3 px-6 py-3.5 bg-white hover:bg-[#4C82F7]/5 border-2 border-[#4C82F7]/40 hover:border-[#4C82F7] text-[#4C82F7] font-bold rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 group"
+            >
               <span>View All</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="card p-6 animate-pulse">
-                  <div className="h-48 bg-slate-200 rounded-xl mb-4"></div>
-                  <div className="h-6 bg-slate-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-slate-200 rounded w-1/2"></div>
+                <div key={i} className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden animate-pulse border border-gray-200/60 shadow-sm">
+                  <div className="h-56 bg-gradient-to-br from-gray-100 to-gray-200 relative"></div>
+                  <div className="p-6 space-y-4">
+                    <div className="h-6 bg-gray-200 rounded-xl w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded-lg w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded-lg w-2/3"></div>
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="h-4 bg-gray-200 rounded-lg w-24"></div>
+                      <div className="h-6 bg-gray-200 rounded-lg w-16"></div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {businesses.map((business) => (
                 <Link
                   key={business._id}
                   to={`/business/${business._id}`}
-                  className="card card-hover overflow-hidden group"
+                  className="group relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-200/60 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2"
                 >
-                  <div className="h-48 bg-gradient-to-br from-blue-100 to-indigo-100 relative overflow-hidden">
+                  {/* Image Container */}
+                  <div className="relative h-56 bg-gradient-to-br from-[#4C82F7]/5 to-[#6B9FFF]/5 overflow-hidden">
                     {business.logo ? (
                       <img
                         src={`http://localhost:8000${business.logo}`}
                         alt={business.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-6xl">
+                      <div className="w-full h-full flex items-center justify-center text-7xl group-hover:scale-110 transition-transform duration-500">
                         {business.category === 'Restaurant' && '🍽️'}
                         {business.category === 'Retail' && '🛍️'}
                         {business.category === 'Technology' && '💻'}
@@ -184,27 +207,36 @@ const Home = () => {
                         {!['Restaurant', 'Retail', 'Technology', 'Healthcare', 'Education', 'Beauty & Spa'].includes(business.category) && '🏢'}
                       </div>
                     )}
-                    <div className="absolute top-3 right-3">
-                      <span className="badge bg-white/90 backdrop-blur-sm text-blue-600 font-semibold shadow-lg">
+                    {/* Floating Category Badge */}
+                    <div className="absolute top-4 right-4">
+                      <span className="inline-flex items-center px-4 py-2 bg-white/95 backdrop-blur-md text-[#4C82F7] font-bold shadow-lg rounded-xl text-xs border border-[#4C82F7]/20">
                         {business.category}
                       </span>
                     </div>
+                    {/* Gradient Overlay on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+
+                  {/* Card Content */}
+                  <div className="p-6 space-y-4">
+                    <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-[#4C82F7] transition-colors line-clamp-1">
                       {business.name}
                     </h3>
-                    <p className="text-slate-600 text-sm mb-3 line-clamp-2">
+                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 font-medium">
                       {business.description}
                     </p>
-                    <div className="flex items-center justify-between text-sm text-slate-500">
-                      <div className="flex items-center space-x-1">
-                        <MapPin className="w-4 h-4" />
-                        <span>{business.location.city}</span>
+                    
+                    {/* Footer Info */}
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-[#4C82F7]/10 rounded-lg flex items-center justify-center">
+                          <MapPin className="w-4 h-4 text-[#4C82F7]" />
+                        </div>
+                        <span className="text-sm font-bold text-gray-700">{business.location.city}</span>
                       </div>
-                      <div className="flex items-center space-x-1">
+                      <div className="flex items-center gap-2 bg-gradient-to-r from-yellow-50 to-orange-50 px-3 py-1.5 rounded-lg border border-yellow-200/60">
                         <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{business.views} views</span>
+                        <span className="text-sm font-bold text-yellow-700">{business.views}</span>
                       </div>
                     </div>
                   </div>
@@ -213,61 +245,84 @@ const Home = () => {
             </div>
           )}
 
-          <div className="text-center mt-10 md:hidden">
-            <Link to="/search" className="btn-primary inline-flex items-center space-x-2">
+          <div className="text-center mt-12 md:hidden">
+            <Link 
+              to="/search" 
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#4C82F7] to-[#6B9FFF] text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            >
               <span>View All Businesses</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
       </div>
 
       {/* Platform Stats */}
-      <div className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <div className="text-4xl font-bold text-slate-900 mb-1">{stats.totalBusinesses}</div>
-                  <div className="text-slate-600 font-medium">Active Businesses</div>
+      <div className="relative py-24 bg-gradient-to-br from-gray-50 via-blue-50/20 to-purple-50/20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 px-5 py-2 bg-gradient-to-r from-green-50 to-emerald-50 rounded-full mb-6 border border-green-200/60">
+              <Award className="w-4 h-4 text-green-600" />
+              <span className="text-sm font-bold text-green-700">Platform Growth</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+              Trusted by Thousands
+            </h2>
+            <p className="text-xl text-gray-600 font-medium">Join our growing community today</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="group relative bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-sm border border-gray-200/60 hover:shadow-xl hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#4C82F7]/0 to-[#6B9FFF]/0 group-hover:from-[#4C82F7]/5 group-hover:to-[#6B9FFF]/5 rounded-2xl transition-all duration-300"></div>
+              <div className="relative">
+                <div className="flex items-start justify-between mb-8">
+                  <div>
+                    <div className="text-5xl font-extrabold text-gray-900 mb-2">{stats.totalBusinesses}</div>
+                    <div className="text-gray-700 font-bold text-lg">Active Businesses</div>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#4C82F7] to-[#6B9FFF] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Award className="w-8 h-8 text-white" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-                  <Award className="w-6 h-6 text-blue-600" />
+                <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full w-3/4 bg-gradient-to-r from-[#4C82F7] to-[#6B9FFF] rounded-full animate-pulse"></div>
                 </div>
-              </div>
-              <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full w-3/4 bg-blue-500 rounded-full"></div>
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <div className="text-4xl font-bold text-slate-900 mb-1">{stats.totalUsers}</div>
-                  <div className="text-slate-600 font-medium">Happy Customers</div>
+            <div className="group relative bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-sm border border-gray-200/60 hover:shadow-xl hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/0 to-purple-50/0 group-hover:from-indigo-50/50 group-hover:to-purple-50/50 rounded-2xl transition-all duration-300"></div>
+              <div className="relative">
+                <div className="flex items-start justify-between mb-8">
+                  <div>
+                    <div className="text-5xl font-extrabold text-gray-900 mb-2">{stats.totalUsers}</div>
+                    <div className="text-gray-700 font-bold text-lg">Happy Customers</div>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Users className="w-8 h-8 text-white" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center">
-                  <Users className="w-6 h-6 text-indigo-600" />
+                <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full w-4/5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse"></div>
                 </div>
-              </div>
-              <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full w-4/5 bg-indigo-500 rounded-full"></div>
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <div className="text-4xl font-bold text-slate-900 mb-1">{stats.totalViews}</div>
-                  <div className="text-slate-600 font-medium">Profile Views</div>
+            <div className="group relative bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-sm border border-gray-200/60 hover:shadow-xl hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50/0 to-pink-50/0 group-hover:from-purple-50/50 group-hover:to-pink-50/50 rounded-2xl transition-all duration-300"></div>
+              <div className="relative">
+                <div className="flex items-start justify-between mb-8">
+                  <div>
+                    <div className="text-5xl font-extrabold text-gray-900 mb-2">{stats.totalViews}</div>
+                    <div className="text-gray-700 font-bold text-lg">Profile Views</div>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Sparkles className="w-8 h-8 text-white" />
+                  </div>
                 </div>
-                <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-purple-600" />
+                <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full w-2/3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse"></div>
                 </div>
-              </div>
-              <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full w-2/3 bg-purple-500 rounded-full"></div>
               </div>
             </div>
           </div>
@@ -275,43 +330,53 @@ const Home = () => {
       </div>
 
       {/* User Action Card */}
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {isBusinessOwner ? (
-            <div className="relative">
-              <div className="absolute inset-0 bg-slate-900 rounded-[2.5rem]"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 rounded-[2.5rem]"></div>
-              <div className="relative p-10 md:p-16 lg:p-20">
-                <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative overflow-hidden rounded-3xl group">
+              {/* Dark gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
+              {/* Blue overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#4C82F7]/20 to-[#6B9FFF]/20"></div>
+              {/* Animated gradient orbs */}
+              <div className="absolute top-0 right-0 w-96 h-96 bg-[#4C82F7]/30 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#6B9FFF]/30 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
+              
+              <div className="relative p-12 md:p-20">
+                <div className="grid md:grid-cols-2 gap-16 items-center">
                   <div>
-                    <div className="inline-block px-4 py-2 bg-white/10 rounded-full backdrop-blur-sm mb-6">
-                      <span className="text-white/90 text-sm font-medium">For Business Owners</span>
+                    <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/10 rounded-xl backdrop-blur-md mb-8 border border-white/20">
+                      <LayoutDashboard className="w-4 h-4 text-white" />
+                      <span className="text-white/95 text-sm font-bold">For Business Owners</span>
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                      Welcome back,<br />{user?.name?.split(' ')[0]}
+                    <h2 className="text-5xl md:text-6xl font-extrabold text-white mb-8 leading-tight">
+                      Welcome back,<br />
+                      <span className="bg-gradient-to-r from-[#4C82F7] via-[#5B8BF8] to-[#6B9FFF] bg-clip-text text-transparent">
+                        {user?.name?.split(' ')[0]}
+                      </span>
                     </h2>
-                    <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+                    <p className="text-xl text-gray-300 mb-10 leading-relaxed font-medium">
                       Check your dashboard to see latest views, manage your business details, and connect with more customers.
                     </p>
                     <Link 
                       to="/dashboard" 
-                      className="inline-flex items-center gap-3 bg-white text-slate-900 px-8 py-4 rounded-2xl font-semibold hover:bg-slate-50 transition-all shadow-lg group"
+                      className="inline-flex items-center gap-4 bg-white text-gray-900 px-10 py-5 rounded-xl font-bold hover:bg-gray-50 hover:scale-105 active:scale-95 transition-all shadow-2xl group/btn"
                     >
                       Go to Dashboard
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-6 h-6 group-hover/btn:translate-x-2 transition-transform" />
                     </Link>
                   </div>
                   <div className="hidden md:flex justify-end">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
-                        <TrendingUp className="w-8 h-8 text-white mb-3" />
-                        <div className="text-2xl font-bold text-white">Track</div>
-                        <div className="text-sm text-slate-300">Analytics</div>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 cursor-pointer">
+                        <TrendingUp className="w-10 h-10 text-white mb-4" />
+                        <div className="text-3xl font-extrabold text-white mb-2">Track</div>
+                        <div className="text-sm text-gray-300 font-semibold">Analytics</div>
                       </div>
-                      <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20 mt-8">
-                        <Star className="w-8 h-8 text-white mb-3" />
-                        <div className="text-2xl font-bold text-white">Manage</div>
-                        <div className="text-sm text-slate-300">Services</div>
+                      <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 mt-10 hover:bg-white/20 hover:scale-105 transition-all duration-300 cursor-pointer">
+                        <Star className="w-10 h-10 text-white mb-4" />
+                        <div className="text-3xl font-extrabold text-white mb-2">Manage</div>
+                        <div className="text-sm text-gray-300 font-semibold">Services</div>
                       </div>
                     </div>
                   </div>
@@ -319,23 +384,28 @@ const Home = () => {
               </div>
             </div>
           ) : (
-            <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-[2.5rem] p-10 md:p-16 lg:p-20 border border-slate-200">
-              <div className="max-w-3xl mx-auto text-center">
-                <div className="inline-flex items-center gap-2 px-5 py-2 bg-white rounded-full shadow-sm mb-8">
-                  <Heart className="w-4 h-4 text-red-500" />
-                  <span className="text-sm font-medium text-slate-700">Your Personal Collection</span>
+            <div className="relative bg-gradient-to-br from-white via-pink-50/30 to-red-50/30 rounded-3xl p-12 md:p-20 border border-gray-200/60 shadow-xl overflow-hidden">
+              {/* Decorative circles */}
+              <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-red-100/30 to-pink-100/30 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-br from-pink-100/30 to-red-100/30 rounded-full blur-3xl"></div>
+              
+              <div className="relative max-w-3xl mx-auto text-center">
+                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm mb-10 border border-red-200/60">
+                  <Heart className="w-5 h-5 text-red-500" />
+                  <span className="text-sm font-bold text-gray-800">Your Personal Collection</span>
                 </div>
-                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                  Hey {user?.name?.split(' ')[0]},<br />find your favorites
+                <h2 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-8 leading-tight">
+                  Hey <span className="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">{user?.name?.split(' ')[0]}</span>,<br />
+                  find your favorites
                 </h2>
-                <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-xl text-gray-600 mb-14 max-w-2xl mx-auto leading-relaxed font-medium">
                   Bookmark businesses you love and keep them organized in one place. Never lose track of great services again.
                 </p>
                 <Link 
                   to="/favorites" 
-                  className="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-semibold hover:bg-slate-800 transition-all shadow-lg group"
+                  className="inline-flex items-center gap-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-12 py-6 rounded-xl font-bold hover:shadow-2xl hover:scale-105 active:scale-95 transition-all shadow-xl group"
                 >
-                  <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <Heart className="w-6 h-6 group-hover:scale-125 transition-transform" />
                   My Favorites
                 </Link>
               </div>

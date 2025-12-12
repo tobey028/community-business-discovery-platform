@@ -3,13 +3,23 @@ import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import { 
   Plus, Edit2, Trash2, Eye, MapPin, Phone, Mail, 
-  Building2, Upload, X, Save 
+  Building2, Upload, X, Save, ChevronDown, UtensilsCrossed, 
+  ShoppingBag, Stethoscope, GraduationCap, Laptop, Scissors, 
+  Car, Home as HomeIcon, Clapperboard, Briefcase, MoreHorizontal 
 } from 'lucide-react';
 
 const categories = [
-  'Restaurant', 'Retail', 'Healthcare', 'Education', 'Technology',
-  'Beauty & Spa', 'Automotive', 'Real Estate', 'Entertainment',
-  'Professional Services', 'Other'
+  { value: 'Restaurant', label: 'Restaurant', icon: UtensilsCrossed, color: 'text-orange-600', bgColor: 'bg-orange-50' },
+  { value: 'Retail', label: 'Retail', icon: ShoppingBag, color: 'text-pink-600', bgColor: 'bg-pink-50' },
+  { value: 'Healthcare', label: 'Healthcare', icon: Stethoscope, color: 'text-blue-600', bgColor: 'bg-blue-50' },
+  { value: 'Education', label: 'Education', icon: GraduationCap, color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
+  { value: 'Technology', label: 'Technology', icon: Laptop, color: 'text-violet-600', bgColor: 'bg-violet-50' },
+  { value: 'Beauty & Spa', label: 'Beauty & Spa', icon: Scissors, color: 'text-rose-600', bgColor: 'bg-rose-50' },
+  { value: 'Automotive', label: 'Automotive', icon: Car, color: 'text-slate-600', bgColor: 'bg-slate-50' },
+  { value: 'Real Estate', label: 'Real Estate', icon: HomeIcon, color: 'text-emerald-600', bgColor: 'bg-emerald-50' },
+  { value: 'Entertainment', label: 'Entertainment', icon: Clapperboard, color: 'text-purple-600', bgColor: 'bg-purple-50' },
+  { value: 'Professional Services', label: 'Professional Services', icon: Briefcase, color: 'text-cyan-600', bgColor: 'bg-cyan-50' },
+  { value: 'Other', label: 'Other', icon: MoreHorizontal, color: 'text-gray-600', bgColor: 'bg-gray-50' }
 ];
 
 const Dashboard = () => {
@@ -19,7 +29,7 @@ const Dashboard = () => {
   const [success, setSuccess] = useState('');
   
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // 'create' or 'edit'
+  const [modalMode, setModalMode] = useState('create'); 
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState('');
   
@@ -431,18 +441,46 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <label className="input-label">Category *</label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    required
-                    className="input-field"
-                  >
-                    <option value="">Select Category</option>
-                    {categories.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <select
+                      name="category"
+                      value={formData.category}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-14 pr-12 py-3.5 rounded-xl border-2 border-gray-200 bg-white hover:border-[#4C82F7]/50 focus:border-[#4C82F7] focus:ring-4 focus:ring-[#4C82F7]/10 outline-none transition-all duration-300 text-gray-900 font-semibold shadow-sm hover:shadow-md appearance-none cursor-pointer"
+                      style={{ backgroundImage: 'none' }}
+                    >
+                      <option value="">Select Category</option>
+                      {categories.map(cat => (
+                        <option key={cat.value} value={cat.value}>{cat.label}</option>
+                      ))}
+                    </select>
+                    {/* Icon Container */}
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                      {formData.category ? (
+                        (() => {
+                          const selectedCat = categories.find(c => c.value === formData.category);
+                          if (selectedCat) {
+                            const Icon = selectedCat.icon;
+                            return (
+                              <div className={`w-8 h-8 rounded-lg ${selectedCat.bgColor} flex items-center justify-center`}>
+                                <Icon className={`w-4 h-4 ${selectedCat.color}`} />
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#4C82F7]/10 to-[#6B9FFF]/10 flex items-center justify-center">
+                          <Building2 className="w-4 h-4 text-[#4C82F7]" />
+                        </div>
+                      )}
+                    </div>
+                    {/* Chevron Icon */}
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                      <ChevronDown className="w-5 h-5 text-gray-400" />
+                    </div>
+                  </div>
                 </div>
               </div>
 

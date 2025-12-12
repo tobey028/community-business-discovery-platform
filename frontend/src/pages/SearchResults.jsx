@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import api from '../api/axios';
-import { Search, MapPin, Phone, Mail, Heart, Eye, Filter, X } from 'lucide-react';
+import { Search, MapPin, Phone, Mail, Heart, Eye, Filter, X, Sparkles, Star, ChevronDown, UtensilsCrossed, ShoppingBag, Stethoscope, GraduationCap, Laptop, Scissors, Car, Home as HomeIcon, Clapperboard, Briefcase, MoreHorizontal } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 const categories = [
-  'Restaurant',
-  'Retail',
-  'Healthcare',
-  'Education',
-  'Technology',
-  'Beauty & Spa',
-  'Automotive',
-  'Real Estate',
-  'Entertainment',
-  'Professional Services',
-  'Other'
+  { value: 'Restaurant', label: 'Restaurant', icon: UtensilsCrossed, color: 'text-orange-600', bgColor: 'bg-orange-50' },
+  { value: 'Retail', label: 'Retail', icon: ShoppingBag, color: 'text-pink-600', bgColor: 'bg-pink-50' },
+  { value: 'Healthcare', label: 'Healthcare', icon: Stethoscope, color: 'text-blue-600', bgColor: 'bg-blue-50' },
+  { value: 'Education', label: 'Education', icon: GraduationCap, color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
+  { value: 'Technology', label: 'Technology', icon: Laptop, color: 'text-violet-600', bgColor: 'bg-violet-50' },
+  { value: 'Beauty & Spa', label: 'Beauty & Spa', icon: Scissors, color: 'text-rose-600', bgColor: 'bg-rose-50' },
+  { value: 'Automotive', label: 'Automotive', icon: Car, color: 'text-slate-600', bgColor: 'bg-slate-50' },
+  { value: 'Real Estate', label: 'Real Estate', icon: HomeIcon, color: 'text-emerald-600', bgColor: 'bg-emerald-50' },
+  { value: 'Entertainment', label: 'Entertainment', icon: Clapperboard, color: 'text-purple-600', bgColor: 'bg-purple-50' },
+  { value: 'Professional Services', label: 'Professional Services', icon: Briefcase, color: 'text-cyan-600', bgColor: 'bg-cyan-50' },
+  { value: 'Other', label: 'Other', icon: MoreHorizontal, color: 'text-gray-600', bgColor: 'bg-gray-50' }
 ];
 
 const SearchResults = () => {
@@ -59,7 +59,7 @@ const SearchResults = () => {
         keyword: searchParams.get('keyword') || '',
         category: searchParams.get('category') || '',
         city: searchParams.get('city') || '',
-        sortBy: searchParams.get('sortBy') || 'popular', // Default to most viewed
+        sortBy: searchParams.get('sortBy') || 'popular',
         page: searchParams.get('page') || 1,
         limit: 9
       };
@@ -143,80 +143,122 @@ const SearchResults = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header Section */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Discover Local Businesses</h1>
-          <p className="text-slate-600">
-            {loading ? 'Searching...' : `${pagination.total} businesses found`}
+    <div className="min-h-screen bg-gradient-to-br from-white via-blue-50/20 to-purple-50/10">
+      {/* Premium Header Section */}
+      <div className="relative bg-gradient-to-br from-[#4C82F7] via-[#5B8BF8] to-[#6B9FFF] text-white rounded-b-[3rem] shadow-xl overflow-hidden">
+        {/* Decorative gradient orbs */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#4C82F7]/30 rounded-full blur-3xl"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-20">
+          <div className="inline-flex items-center gap-3 px-5 py-2 bg-white/10 rounded-full mb-6 border border-white/20 backdrop-blur-sm">
+            <Sparkles className="w-4 h-4 text-white" />
+            <span className="text-sm font-bold text-white">Explore Marketplace</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">Discover Local Businesses</h1>
+          <p className="text-xl md:text-2xl text-white/90 font-medium">
+            {loading ? 'Searching...' : `${pagination.total} businesses ready to serve you`}
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         
-        {/* Search & Filters */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
-          <form onSubmit={handleSearch} className="space-y-4">
-            <div className="flex gap-4 items-center">
+        {/* Premium Search & Filters Card */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-gray-200/60 p-8 mb-12 hover:shadow-lg transition-shadow duration-300">
+          <form onSubmit={handleSearch} className="space-y-7">
+            <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
               <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-[#4C82F7]/10 rounded-xl flex items-center justify-center">
+                  <Search className="w-5 h-5 text-[#4C82F7]" />
+                </div>
                 <input
                   type="text"
-                  placeholder="Search businesses..."
+                  placeholder="Search for businesses, services, or keywords..."
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none"
+                  className="w-full pl-[4.5rem] pr-5 py-4 rounded-xl border border-gray-200 bg-white focus:border-[#4C82F7] focus:ring-4 focus:ring-[#4C82F7]/10 outline-none transition-all duration-300 text-gray-900 placeholder-gray-400 font-medium shadow-sm"
                 />
               </div>
               <button
                 type="button"
                 onClick={() => setShowFilters(!showFilters)}
-                className="btn-secondary flex items-center gap-2"
+                className={`px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-3 transition-all duration-300 shadow-sm hover:shadow-md ${
+                  showFilters
+                    ? 'bg-gradient-to-r from-[#4C82F7] to-[#6B9FFF] text-white scale-105'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:border-[#4C82F7]'
+                }`}
               >
                 <Filter className="w-5 h-5" />
-                Filters
+                <span className="hidden sm:inline">Filters</span>
               </button>
-              <button type="submit" className="btn-primary">
+              <button type="submit" className="px-8 py-4 bg-gradient-to-r from-[#4C82F7] to-[#6B9FFF] text-white font-bold rounded-xl hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg">
                 Search
               </button>
             </div>
 
             {/* Expandable Filters */}
             {showFilters && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-200">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-7 border-t-2 border-gray-100 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div>
-                  <label className="input-label">Category</label>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="input-field"
-                  >
-                    <option value="">All Categories</option>
-                    {categories.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
+                  <label className="block text-sm font-bold text-gray-700 mb-3">Category</label>
+                  <div className="relative">
+                    <select
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="w-full pl-14 pr-12 py-4 rounded-xl border-2 border-gray-200 bg-white hover:border-[#4C82F7]/50 focus:border-[#4C82F7] focus:ring-4 focus:ring-[#4C82F7]/10 outline-none transition-all duration-300 text-gray-900 font-semibold shadow-sm hover:shadow-md appearance-none cursor-pointer"
+                      style={{ backgroundImage: 'none' }}
+                    >
+                      <option value="">All Categories</option>
+                      {categories.map(cat => (
+                        <option key={cat.value} value={cat.value}>{cat.label}</option>
+                      ))}
+                    </select>
+                    {/* Icon Container */}
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                      {category ? (
+                        (() => {
+                          const selectedCat = categories.find(c => c.value === category);
+                          if (selectedCat) {
+                            const Icon = selectedCat.icon;
+                            return (
+                              <div className={`w-8 h-8 rounded-lg ${selectedCat.bgColor} flex items-center justify-center`}>
+                                <Icon className={`w-4 h-4 ${selectedCat.color}`} />
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#4C82F7]/10 to-[#6B9FFF]/10 flex items-center justify-center">
+                          <Filter className="w-4 h-4 text-[#4C82F7]" />
+                        </div>
+                      )}
+                    </div>
+                    {/* Chevron Icon */}
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                      <ChevronDown className="w-5 h-5 text-gray-400" />
+                    </div>
+                  </div>
                 </div>
                 <div>
-                  <label className="input-label">City</label>
+                  <label className="block text-sm font-bold text-gray-700 mb-3">City</label>
                   <input
                     type="text"
-                    placeholder="Enter city"
+                    placeholder="Enter city name"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className="input-field"
+                    className="w-full px-4 py-4 rounded-xl border border-gray-200 bg-white focus:border-[#4C82F7] focus:ring-4 focus:ring-[#4C82F7]/10 outline-none transition-all duration-300 text-gray-900 placeholder-gray-400 font-medium shadow-sm"
                   />
                 </div>
-                <div className="md:col-span-2 flex gap-2">
+                <div className="md:col-span-2 flex gap-3">
                   <button
                     type="button"
                     onClick={clearFilters}
-                    className="btn-secondary flex items-center gap-2"
+                    className="px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl font-bold hover:border-red-300 hover:bg-red-50 hover:text-red-600 transition-all duration-300 flex items-center gap-2 shadow-sm hover:shadow-md"
                   >
                     <X className="w-4 h-4" />
-                    Clear Filters
+                    Clear All Filters
                   </button>
                 </div>
               </div>
@@ -225,20 +267,23 @@ const SearchResults = () => {
 
           {/* Active Filters Display */}
           {(keyword || category || city) && (
-            <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-200">
-              <span className="text-sm font-medium text-slate-700">Filters:</span>
+            <div className="flex flex-wrap gap-3 mt-7 pt-7 border-t-2 border-gray-100">
+              <span className="text-sm font-bold text-gray-700 my-auto flex items-center gap-2">
+                <Star className="w-4 h-4 text-[#4C82F7]" />
+                Active Filters:
+              </span>
               {keyword && (
-                <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium border border-blue-200">
+                <span className="px-4 py-2 bg-gradient-to-r from-[#4C82F7]/10 to-[#6B9FFF]/10 text-[#4C82F7] rounded-xl text-sm font-bold border border-[#4C82F7]/30 shadow-sm">
                   "{keyword}"
                 </span>
               )}
               {category && (
-                <span className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium border border-indigo-200">
+                <span className="px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 rounded-xl text-sm font-bold border border-indigo-200/60 shadow-sm">
                   {category}
                 </span>
               )}
               {city && (
-                <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm font-medium border border-purple-200">
+                <span className="px-4 py-2 bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 rounded-xl text-sm font-bold border border-purple-200/60 shadow-sm">
                   {city}
                 </span>
               )}
@@ -248,139 +293,166 @@ const SearchResults = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 text-red-700 px-4 py-3 rounded-xl mb-6 border border-red-200">
-            {error}
+          <div className="bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200/60 rounded-xl shadow-sm mb-12 p-6 flex items-start gap-4">
+            <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <X className="w-5 h-5 text-red-600" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-red-900 mb-1">Error</p>
+              <p className="text-sm text-red-700 font-medium">{error}</p>
+            </div>
           </div>
         )}
 
         {/* Loading State */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="bg-white rounded-2xl p-6 animate-pulse border border-slate-200">
-                <div className="bg-slate-200 h-48 rounded-xl mb-4"></div>
-                <div className="bg-slate-200 h-6 rounded mb-2"></div>
-                <div className="bg-slate-200 h-4 rounded w-3/4 mb-3"></div>
-                <div className="bg-slate-200 h-4 rounded w-1/2"></div>
+              <div key={i} className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden animate-pulse border border-gray-200/60 shadow-sm">
+                <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-56"></div>
+                <div className="p-6 space-y-4">
+                  <div className="bg-gray-200 h-6 rounded-xl w-3/4"></div>
+                  <div className="bg-gray-200 h-4 rounded-lg w-full"></div>
+                  <div className="bg-gray-200 h-4 rounded-lg w-2/3"></div>
+                  <div className="flex gap-3 pt-2">
+                    <div className="bg-gray-200 h-4 rounded-lg w-24"></div>
+                    <div className="bg-gray-200 h-4 rounded-lg w-20"></div>
+                  </div>
+                  <div className="bg-gray-200 h-10 rounded-xl w-full mt-4"></div>
+                </div>
               </div>
             ))}
           </div>
         ) : businesses.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200 p-16 text-center">
-            <div className="text-6xl mb-6">🔍</div>
-            <h3 className="text-2xl font-bold text-slate-900 mb-3">No businesses found</h3>
-            <p className="text-slate-600 mb-6">Try adjusting your search criteria or explore all businesses</p>
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 shadow-md p-20 text-center">
+            <div className="text-8xl mb-8">🔍</div>
+            <h3 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">No businesses found</h3>
+            <p className="text-gray-600 text-lg font-medium mb-10 max-w-md mx-auto leading-relaxed">Try adjusting your search criteria or clear filters to explore all businesses</p>
             <button
               onClick={clearFilters}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-[#4C82F7] to-[#6B9FFF] text-white rounded-xl font-bold hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg"
             >
-              Clear Filters
+              Clear All Filters
             </button>
           </div>
         ) : (
           <>
-            {/* Business Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {/* Premium Business Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {businesses.map((business) => (
-                <div key={business._id} className="card overflow-hidden group">
-                  {/* Business Logo/Image */}
-                  <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100 overflow-hidden">
+                <Link
+                  key={business._id}
+                  to={`/business/${business._id}`}
+                  className="group relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-200/60 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2"
+                >
+                  {/* Business Image Container */}
+                  <div className="relative h-56 bg-gradient-to-br from-[#4C82F7]/5 to-[#6B9FFF]/5 overflow-hidden">
                     {business.logo ? (
                       <img
                         src={`http://localhost:8000${business.logo}`}
                         alt={business.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-6xl">
+                      <div className="w-full h-full flex items-center justify-center text-7xl group-hover:scale-110 transition-transform duration-500">
                         🏢
                       </div>
                     )}
                     
-                    {/* Favorite Button */}
+                    {/* Floating Favorite Button */}
                     {isRegularUser && (
                       <button
-                        onClick={() => toggleFavorite(business._id)}
-                        className={`absolute top-3 right-3 p-2 rounded-full shadow-lg transition-all duration-200 ${
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleFavorite(business._id);
+                        }}
+                        className={`absolute top-4 right-4 w-11 h-11 rounded-xl shadow-lg transition-all duration-300 hover:scale-110 backdrop-blur-md flex items-center justify-center ${
                           favorites.has(business._id)
-                            ? 'bg-red-500 text-white hover:bg-red-600'
-                            : 'bg-white text-slate-400 hover:text-red-500'
+                            ? 'bg-gradient-to-br from-red-500 to-pink-500 text-white'
+                            : 'bg-white/90 text-gray-400 hover:text-red-500'
                         }`}
                       >
                         <Heart className={`w-5 h-5 ${favorites.has(business._id) ? 'fill-current' : ''}`} />
                       </button>
                     )}
 
-                    {/* Category Badge */}
-                    <div className="absolute bottom-3 left-3">
-                      <span className="badge bg-white/90 backdrop-blur-sm text-slate-700 shadow-lg">
+                    {/* Floating Category Pill Badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="inline-flex items-center px-4 py-2 bg-white/95 backdrop-blur-md text-[#4C82F7] font-bold rounded-xl shadow-lg text-xs border border-[#4C82F7]/20">
                         {business.category}
                       </span>
                     </div>
+
+                    {/* Gradient Overlay on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
 
-                  {/* Business Info */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+                  {/* Business Info Card */}
+                  <div className="p-6 space-y-4">
+                    <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-[#4C82F7] transition-colors line-clamp-1">
                       {business.name}
                     </h3>
-                    <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 font-medium">
                       {business.description}
                     </p>
 
-                    {/* Location */}
-                    <div className="flex items-start gap-2 text-sm text-slate-600 mb-2">
-                      <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                      <span>
-                        {business.location.address}, {business.location.city}
-                      </span>
+                    {/* Contact Info Grid */}
+                    <div className="space-y-3 pt-2">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-[#4C82F7]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <MapPin className="w-4 h-4 text-[#4C82F7]" />
+                        </div>
+                        <span className="text-sm text-gray-700 font-medium line-clamp-1 pt-1">
+                          {business.location.address}, {business.location.city}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Phone className="w-4 h-4 text-green-600" />
+                        </div>
+                        <span className="text-sm text-gray-700 font-medium">{business.contact.phone}</span>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Mail className="w-4 h-4 text-purple-600" />
+                        </div>
+                        <span className="text-sm text-gray-700 font-medium truncate">{business.contact.email}</span>
+                      </div>
                     </div>
 
-                    {/* Contact */}
-                    <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
-                      <Phone className="w-4 h-4 flex-shrink-0" />
-                      <span>{business.contact.phone}</span>
+                    {/* Footer with Views */}
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-2 bg-gradient-to-r from-yellow-50 to-orange-50 px-3 py-1.5 rounded-lg border border-yellow-200/60">
+                        <Eye className="w-4 h-4 text-yellow-600" />
+                        <span className="text-sm font-bold text-yellow-700">{business.views} views</span>
+                      </div>
+                      <div className="text-[#4C82F7] font-bold text-sm group-hover:translate-x-1 transition-transform">
+                        View Details →
+                      </div>
                     </div>
-
-                    <div className="flex items-center gap-2 text-sm text-slate-600 mb-4">
-                      <Mail className="w-4 h-4 flex-shrink-0" />
-                      <span className="truncate">{business.contact.email}</span>
-                    </div>
-
-                    {/* Views */}
-                    <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
-                      <Eye className="w-4 h-4" />
-                      <span>{business.views} views</span>
-                    </div>
-
-                    {/* View Details Button */}
-                    <Link
-                      to={`/business/${business._id}`}
-                      className="block text-center btn-primary w-full"
-                    >
-                      View Details
-                    </Link>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
 
-            {/* Pagination */}
+            {/* Premium Pagination */}
             {pagination.pages > 1 && (
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div className="text-sm text-slate-600">
-                  Showing page {pagination.page} of {pagination.pages}
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 shadow-md p-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+                <div className="text-base font-bold text-gray-700">
+                  Page <span className="text-[#4C82F7]">{pagination.page}</span> of {pagination.pages}
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <button
                     onClick={() => handlePageChange(pagination.page - 1)}
                     disabled={pagination.page === 1}
-                    className="px-5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-medium hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="px-6 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold hover:bg-white hover:border-[#4C82F7] hover:text-[#4C82F7] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 shadow-sm hover:shadow-md"
                   >
                     Previous
                   </button>
                   
-                  <div className="hidden sm:flex items-center gap-1">
+                  <div className="hidden sm:flex items-center gap-2">
                     {[...Array(Math.min(pagination.pages, 5))].map((_, i) => {
                       let pageNum;
                       if (pagination.pages <= 5) {
@@ -397,10 +469,10 @@ const SearchResults = () => {
                         <button
                           key={pageNum}
                           onClick={() => handlePageChange(pageNum)}
-                          className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                          className={`w-12 h-12 rounded-xl font-bold transition-all duration-300 ${
                             pagination.page === pageNum
-                              ? 'bg-slate-900 text-white'
-                              : 'text-slate-700 hover:bg-slate-100'
+                              ? 'bg-gradient-to-r from-[#4C82F7] to-[#6B9FFF] text-white shadow-lg scale-110'
+                              : 'text-gray-700 hover:bg-gray-100 border border-gray-200 shadow-sm'
                           }`}
                         >
                           {pageNum}
@@ -412,7 +484,7 @@ const SearchResults = () => {
                   <button
                     onClick={() => handlePageChange(pagination.page + 1)}
                     disabled={pagination.page === pagination.pages}
-                    className="px-5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 font-medium hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="px-6 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 font-bold hover:bg-white hover:border-[#4C82F7] hover:text-[#4C82F7] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 shadow-sm hover:shadow-md"
                   >
                     Next
                   </button>

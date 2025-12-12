@@ -67,7 +67,7 @@ const Favorites = () => {
           </p>
         </div>
 
-        {/* Error Message */}
+        
         {error && (
           <div className="bg-red-50 text-red-700 px-4 py-3 rounded-xl mb-6 border border-red-200">
             {error}
@@ -89,7 +89,7 @@ const Favorites = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {favorites.map(({ business, addedAt }) => (
+            {favorites.map(({ business, createdAt }) => (
               <div key={business._id} className="card overflow-hidden group">
                 {/* Business Logo/Image */}
                 <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100 overflow-hidden">
@@ -158,7 +158,7 @@ const Favorites = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <Heart className="w-4 h-4 text-red-500 fill-current" />
-                      <span>Added {new Date(addedAt).toLocaleDateString()}</span>
+                      <span>Added {createdAt ? new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Recently'}</span>
                     </div>
                   </div>
 
