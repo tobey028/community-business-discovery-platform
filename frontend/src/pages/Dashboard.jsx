@@ -99,7 +99,7 @@ const Dashboard = () => {
       services: [...business.services]
     });
     setLogoFile(null);
-    setLogoPreview(business.logo ? `http://localhost:8000${business.logo}` : '');
+    setLogoPreview(business.logo || '');
     setShowModal(true);
   };
 
@@ -262,7 +262,7 @@ const Dashboard = () => {
                 <div className="relative h-64 bg-gradient-to-br from-blue-100 to-indigo-100">
                   {business.logo ? (
                     <img
-                      src={`http://localhost:8000${business.logo}`}
+                      src={business.logo}
                       alt={business.name}
                       className="w-full h-full object-cover"
                     />

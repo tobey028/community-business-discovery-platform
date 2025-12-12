@@ -17,6 +17,9 @@ JWT_SECRET=put_any_random_string_here
 PORT=8000
 NODE_ENV=development
 MAX_FILE_SIZE=5242880
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 Start the server:
@@ -48,6 +51,22 @@ If you get connection errors, check:
 - Username and password are correct
 - Your IP address is whitelisted (or use `0.0.0.0/0` for testing)
 - Network security settings in Atlas
+
+---
+
+## Cloudinary Setup
+
+Business logos are stored on Cloudinary instead of local files. Get a free account:
+
+1. Go to cloudinary.com and sign up
+2. After login, find your dashboard
+3. Copy these values:
+   - Cloud Name
+   - API Key
+   - API Secret
+4. Add them to your `.env` file
+
+Images will be stored in the cloud, so they won't disappear when you restart the server or deploy.
 
 ---
 
@@ -161,7 +180,7 @@ uploads/logos/                Business logo files
 
 **Business Management:**
 - CRUD operations
-- Image upload (max 5MB, jpg/png/gif only)
+- Image upload to Cloudinary (max 5MB, jpg/png/gif only)
 - Owner can only modify their own business
 - View counter
 
@@ -184,7 +203,7 @@ uploads/logos/                Business logo files
 - MongoDB + Mongoose
 - JWT for auth
 - bcrypt for passwords
-- Multer for file uploads
+- Multer + Cloudinary for image storage
 - CORS enabled
 
 ---
@@ -200,10 +219,11 @@ uploads/logos/                Business logo files
 - Change PORT in `.env`
 - Or kill the process: `lsof -ti:8000 | xargs kill`
 
-**File upload fails:**
+**Image upload fails:**
 - Check file size (max 5MB)
-- Only images allowed
-- Make sure `uploads/logos` folder exists
+- Only images allowed (jpg, png, gif)
+- Verify Cloudinary credentials in `.env`
+- Check your Cloudinary account quota
 
 **Token errors:**
 - Token format must be: `Bearer <token>`

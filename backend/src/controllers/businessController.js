@@ -1,6 +1,5 @@
 const Business = require('../models/Business');
-const fs = require('fs').promises;
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 // Create a new business
 exports.createBusiness = async (req, res, next) => {
@@ -42,9 +41,9 @@ exports.createBusiness = async (req, res, next) => {
       services: parsedServices || []
     };
 
-    // Add logo if uploaded
+    // Add logo if uploaded (Cloudinary URL)
     if (req.file) {
-      businessData.logo = `/uploads/logos/${req.file.filename}`;
+      businessData.logo = req.file.path; // Cloudinary returns full URL in file.path
     }
 
     const business = await Business.create(businessData);
@@ -54,10 +53,6 @@ exports.createBusiness = async (req, res, next) => {
       data: business
     });
   } catch (error) {
-    // Delete uploaded file if business creation fails
-    if (req.file) {
-      await fs.unlink(req.file.path).catch(console.error);
-    }
     next(error);
   }
 };
@@ -181,12 +176,15 @@ exports.updateBusiness = async (req, res, next) => {
 
     // Handle logo update
     if (req.file) {
-      // Delete old logo if exists
+      // Delete old logo from Cloudinary if exists
       if (business.logo) {
-        const oldLogoPath = path.join(__dirname, '../../', business.logo);
-        await fs.unlink(oldLogoPath).catch(console.error);
+        // Extract public_id from Cloudinary URL
+        const urlParts = business.logo.split('/');
+        const publicIdWithExt = urlParts[urlParts.length - 1];
+        const publicId = `nexzio/business-logos/${publicIdWithExt.split('.')[0]}`;
+        await cloudinary.uploader.destroy(publicId).catch(console.error);
       }
-      updateData.logo = `/uploads/logos/${req.file.filename}`;
+      updateData.logo = req.file.path; // Cloudinary URL
     }
 
     business = await Business.findByIdAndUpdate(
@@ -200,10 +198,6 @@ exports.updateBusiness = async (req, res, next) => {
       data: business
     });
   } catch (error) {
-    // Delete uploaded file if update fails
-    if (req.file) {
-      await fs.unlink(req.file.path).catch(console.error);
-    }
     next(error);
   }
 };
@@ -228,10 +222,13 @@ exports.deleteBusiness = async (req, res, next) => {
       });
     }
 
-    // Delete logo if exists
+    // Delete logo from Cloudinary if exists
     if (business.logo) {
-      const logoPath = path.join(__dirname, '../../', business.logo);
-      await fs.unlink(logoPath).catch(console.error);
+      // Extract public_id from Cloudinary URL
+      const urlParts = business.logo.split('/');
+      const publicIdWithExt = urlParts[urlParts.length - 1];
+      const publicId = `nexzio/business-logos/${publicIdWithExt.split('.')[0]}`;
+      await cloudinary.uploader.destroy(publicId).catch(console.error);
     }
 
     await business.deleteOne();

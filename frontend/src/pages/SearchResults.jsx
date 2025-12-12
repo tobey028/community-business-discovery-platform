@@ -349,7 +349,7 @@ const SearchResults = () => {
                   <div className="relative h-56 bg-gradient-to-br from-[#4C82F7]/5 to-[#6B9FFF]/5 overflow-hidden">
                     {business.logo ? (
                       <img
-                        src={`http://localhost:8000${business.logo}`}
+                        src={business.logo}
                         alt={business.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
