@@ -32,6 +32,9 @@ Create a `.env` file:
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=any_random_string
 PORT=8000
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 Start the server:
@@ -66,7 +69,6 @@ More details: [frontend/README.md](./frontend/README.md)
 │   │   ├── models/
 │   │   ├── routes/
 │   │   └── middleware/
-│   └── uploads/      Business logo uploads
 │
 ├── frontend/         React + Vite
     ├── src/
@@ -95,7 +97,7 @@ More details: [frontend/README.md](./frontend/README.md)
 
 **Frontend:** React 18, Vite, Tailwind CSS, React Router, Lucide Icons
 
-**Backend:** Node.js, Express, MongoDB, Mongoose, JWT, Multer, bcrypt
+**Backend:** Node.js, Express, MongoDB, Mongoose, JWT, Multer, bcrypt, Cloudinary
 
 ---
 
@@ -104,6 +106,7 @@ More details: [frontend/README.md](./frontend/README.md)
 - Backend uses port 8000 (not 5000 - conflicts with macOS)
 - You need a MongoDB Atlas account (free tier works fine)
 - Business owners can only create one business per account
+- Images stored on Cloudinary (get free account at cloudinary.com)
 - File uploads limited to 5MB
 - JWT tokens expire after 30 days
 
