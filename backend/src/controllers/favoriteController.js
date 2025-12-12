@@ -1,9 +1,7 @@
 const Favorite = require('../models/Favorite');
 const Business = require('../models/Business');
 
-// @desc    Add business to favorites
-// @route   POST /api/favorites/:businessId
-// @access  Private (Regular User only)
+// Add business to favorites
 exports.addFavorite = async (req, res, next) => {
   try {
     const { businessId } = req.params;
@@ -44,9 +42,7 @@ exports.addFavorite = async (req, res, next) => {
   }
 };
 
-// @desc    Remove business from favorites
-// @route   DELETE /api/favorites/:businessId
-// @access  Private (Regular User only)
+// Remove business from favorites
 exports.removeFavorite = async (req, res, next) => {
   try {
     const { businessId } = req.params;
@@ -72,9 +68,7 @@ exports.removeFavorite = async (req, res, next) => {
   }
 };
 
-// @desc    Get user's favorites
-// @route   GET /api/favorites
-// @access  Private (Regular User only)
+// Get user's favorites
 exports.getFavorites = async (req, res, next) => {
   try {
     const favorites = await Favorite.find({ user: req.user._id })
@@ -97,9 +91,7 @@ exports.getFavorites = async (req, res, next) => {
   }
 };
 
-// @desc    Check if business is favorited
-// @route   GET /api/favorites/check/:businessId
-// @access  Private (Regular User only)
+// Check if business is favorited
 exports.checkFavorite = async (req, res, next) => {
   try {
     const { businessId } = req.params;

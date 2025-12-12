@@ -2,14 +2,12 @@ const Business = require('../models/Business');
 const fs = require('fs').promises;
 const path = require('path');
 
-// @desc    Create a new business
-// @route   POST /api/businesses
-// @access  Private (Business Owner only)
+// Create a new business
 exports.createBusiness = async (req, res, next) => {
   try {
     const { name, description, category, location, contact, services } = req.body;
 
-    // Parse services if it's a string (from form-data)
+    // Parse services if it's a string 
     let parsedServices = services;
     if (typeof services === 'string') {
       parsedServices = JSON.parse(services);
@@ -64,9 +62,7 @@ exports.createBusiness = async (req, res, next) => {
   }
 };
 
-// @desc    Get all businesses with filters and pagination
-// @route   GET /api/businesses
-// @access  Public
+// Get all businesses with filters and pagination
 exports.getBusinesses = async (req, res, next) => {
   try {
     const { category, city, keyword, sortBy, page = 1, limit = 10 } = req.query;
@@ -124,9 +120,8 @@ exports.getBusinesses = async (req, res, next) => {
   }
 };
 
-// @desc    Get single business by ID
-// @route   GET /api/businesses/:id
-// @access  Public
+// Get single business by ID
+
 exports.getBusinessById = async (req, res, next) => {
   try {
     const business = await Business.findById(req.params.id)
@@ -152,9 +147,7 @@ exports.getBusinessById = async (req, res, next) => {
   }
 };
 
-// @desc    Update business
-// @route   PUT /api/businesses/:id
-// @access  Private (Owner only)
+// Update business
 exports.updateBusiness = async (req, res, next) => {
   try {
     let business = await Business.findById(req.params.id);
@@ -215,9 +208,7 @@ exports.updateBusiness = async (req, res, next) => {
   }
 };
 
-// @desc    Delete business
-// @route   DELETE /api/businesses/:id
-// @access  Private (Owner only)
+// Delete business
 exports.deleteBusiness = async (req, res, next) => {
   try {
     const business = await Business.findById(req.params.id);
@@ -254,9 +245,7 @@ exports.deleteBusiness = async (req, res, next) => {
   }
 };
 
-// @desc    Get my business (for business owner)
-// @route   GET /api/businesses/my/profile
-// @access  Private (Business Owner only)
+// Get my business (for business owner)
 exports.getMyBusiness = async (req, res, next) => {
   try {
     const business = await Business.findOne({ owner: req.user._id })

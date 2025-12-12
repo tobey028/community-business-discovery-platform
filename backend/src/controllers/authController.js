@@ -1,9 +1,7 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+// Register a new user
 exports.register = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
@@ -17,10 +15,34 @@ exports.register = async (req, res, next) => {
     }
 
     // Check if password is strong enough
-    if (password.length < 6) {
+    if (password.length < 8) {
       return res.status(400).json({
         success: false,
-        message: 'Password must be at least 6 characters long'
+        message: 'Password must be at least 8 characters long'
+      });
+    }
+
+    // Check for uppercase letter
+    if (!/[A-Z]/.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must contain at least one uppercase letter'
+      });
+    }
+
+    // Check for number
+    if (!/[0-9]/.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must contain at least one number'
+      });
+    }
+
+    // Check for special character
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must contain at least one special character'
       });
     }
 
@@ -58,9 +80,7 @@ exports.register = async (req, res, next) => {
   }
 };
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
+// Login user
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -108,9 +128,7 @@ exports.login = async (req, res, next) => {
   }
 };
 
-// @desc    Get current user profile
-// @route   GET /api/auth/me
-// @access  Private
+// Get current user profile
 exports.getMe = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
@@ -124,9 +142,7 @@ exports.getMe = async (req, res, next) => {
   }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/auth/update-profile
-// @access  Private
+// Update user profile
 exports.updateProfile = async (req, res, next) => {
   try {
     const { name, currentPassword, newPassword } = req.body;
